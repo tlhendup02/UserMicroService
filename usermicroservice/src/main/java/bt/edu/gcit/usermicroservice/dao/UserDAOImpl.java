@@ -7,6 +7,7 @@ import jakarta.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import bt.edu.gcit.usermicroservice.exception.UserNotFoundException;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -22,23 +23,6 @@ public class UserDAOImpl implements UserDAO {
     public User save(User user) {
         return entityManager.merge(user);
     }
-    @Override
-    public User findById(int id) {
-        return entityManager.find(User.class, id);
-    }
-    @Override
-    public List<User> getAllUsers() {
-        return entityManager.createQuery("FROM User ", User.class).getResultList();
-    }
-
-    
-    @Override
-    public void deleteUser(int id) {
-        User user = findById(id);
-        if (user != null) {
-            entityManager.remove(user);
-        }
-    }
 
     @Override
     public User findByEmail(String email) {
@@ -53,4 +37,32 @@ public class UserDAOImpl implements UserDAO {
             return users.get(0);
         }
     }
+
+    @Override
+    public User findById(int theId) {
+        User user = entityManager.find(User.class, theId);
+        return user;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return entityManager.createQuery("FROM User ", User.class).getResultList();
+    }
+
+    @Override
+    public void deleteById(int theId) {
+        User user = findById(theId);
+        entityManager.remove(user);
+    }
+
+    @Override
+    public void updateUserEnabledStatus(int id, boolean enabled) {
+        User user = entityManager.find(User.class, id);
+        if (user == null){
+            throw new UserNotFoundException("User not found with id: " + id);  
+        }
+        user.setEnabled(enabled);
+        entityManager.persist(user);
+    }
+
 }

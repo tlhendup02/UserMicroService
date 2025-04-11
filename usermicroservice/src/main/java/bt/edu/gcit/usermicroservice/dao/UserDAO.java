@@ -5,8 +5,9 @@ import java.util.List;
 
 public interface UserDAO {
     User save(User user);
-    User findById(int id);
-    List<User> getAllUsers();
-    void deleteUser(int id);
     User findByEmail(String email);
+    User findById(int theId);
+    List<User> getAllUsers();
+    void deleteById(int theId);
+    void updateUserEnabledStatus(int id, boolean enabled);
 }
