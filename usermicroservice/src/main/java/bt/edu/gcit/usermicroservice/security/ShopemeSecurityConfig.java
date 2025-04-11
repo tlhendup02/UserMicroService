@@ -22,6 +22,7 @@ public class ShopemeSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
         configurer.requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+        .requestMatchers(HttpMethod.GET, "/api/users/checkDuplicateEmail").permitAll()
         );
 
         //disable crsrf

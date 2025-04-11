@@ -3,6 +3,8 @@ package bt.edu.gcit.usermicroservice.dao;
 import java.util.List;
 import bt.edu.gcit.usermicroservice.entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -39,10 +41,16 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean emailExists(String email) {
-        Long count = entityManager.createQuery("SELECT COUNT(u) FROM User u WHERE u.email = :email", Long.class)
-                .setParameter("email", email)
-                .getSingleResult();
-        return count > 0;
+    public User findByEmail(String email) {
+        TypedQuery<User> query = entityManager.createQuery("FROM User u WHERE u.email = :email", User.class);
+        query.setParameter("email", email);
+        List<User> users = query.getResultList();
+        System.out.println(users.size());
+        if (users.isEmpty()) {
+            return null;
+        } else {
+            System.out.println(users.get(0)+" "+users.get(0).getEmail());
+            return users.get(0);
+        }
     }
 }

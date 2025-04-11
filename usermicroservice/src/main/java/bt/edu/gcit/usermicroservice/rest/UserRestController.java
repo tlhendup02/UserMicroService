@@ -48,9 +48,10 @@ public class UserRestController {
         return userService.save(user);
     }
 
-    @GetMapping("/users/duplicateemail")
+    @GetMapping("/users/checkDuplicateEmail")
     public ResponseEntity<Boolean> checkDuplicateEmail(@RequestParam String email) {
-        return userService.checkDuplicateEmail(email);
+        boolean isDuplicate = userService.isEmailDuplicate(email);
+        return ResponseEntity.ok(isDuplicate);
     }
 
     @PutMapping("/users/{id}/enabled")

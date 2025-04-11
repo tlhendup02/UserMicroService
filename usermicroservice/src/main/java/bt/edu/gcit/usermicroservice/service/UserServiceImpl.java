@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Boolean> checkDuplicateEmail(String email) {
-        boolean exists = userDAO.emailExists(email);
-        return ResponseEntity.ok(exists);
+    public Boolean isEmailDuplicate(String email) {
+        User user = userDAO.findByEmail(email);
+        return user != null;
     }
 
     @Override

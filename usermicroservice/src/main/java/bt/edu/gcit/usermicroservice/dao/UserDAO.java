@@ -8,5 +8,5 @@ public interface UserDAO {
     User findById(int id);
     List<User> getAllUsers();
     void deleteUser(int id);
-    boolean emailExists(String email);
+    User findByEmail(String email);
 }
