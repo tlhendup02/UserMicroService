@@ -21,12 +21,12 @@ public class ShopemeSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
-        configurer.requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+        configurer.requestMatchers(HttpMethod.POST, "/api/users").hasAuthority("Admin")
         .requestMatchers(HttpMethod.GET, "/api/users/all").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/users/checkDuplicateEmail").permitAll()
-        .requestMatchers(HttpMethod.PUT, "/api/users/{id}").permitAll()
-        .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").permitAll()
-        .requestMatchers(HttpMethod.PUT, "/api/users/{id}/enabled").permitAll()
+        .requestMatchers(HttpMethod.GET, "/api/users/checkDuplicateEmail").hasAuthority("Admin")
+        .requestMatchers(HttpMethod.PUT, "/api/users/{id}").hasAuthority("Admin")
+        .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").hasAuthority("Admin")
+        .requestMatchers(HttpMethod.PUT, "/api/users/{id}/enabled").hasAuthority("Admin")
         );
 
 
