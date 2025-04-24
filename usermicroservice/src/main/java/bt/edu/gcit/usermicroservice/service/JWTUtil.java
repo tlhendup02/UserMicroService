@@ -18,7 +18,7 @@ public class JWTUtil {
 
     // extracting information from a token
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, Claims::getSubject); //Shorthand for lambda expression
     }
 
     public Date extractExpiration(String token) {
@@ -28,7 +28,7 @@ public class JWTUtil {
     // extractCalims is a reusable helper: u giv it any func that pulls sth out of the claims obj
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+        return claimsResolver.apply(claims); // claimsresolver is a function that takes the claims object and returns the value you want
     }
 
     private Claims extractAllClaims(String token) {
@@ -50,8 +50,8 @@ public class JWTUtil {
 
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .setClaims(claims)  // custom + registered claims
-                .setSubject(subject)
+                .setClaims(claims)  // username and roles
+                .setSubject(subject) // username
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
